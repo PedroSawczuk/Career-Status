@@ -101,7 +101,7 @@ class Jogador(models.Model):
 
     def __str__(self):
         return self.nome
-
+    
 class Estatistica(models.Model):
     TEMPORADAS_CHOICES = (
         ("2018/19", "2018/19"),
@@ -130,12 +130,11 @@ class Estatistica(models.Model):
         return f"{self.jogador} - {self.temporada}"
 
 class JogadorVendido(models.Model):
-    jogador = models.OneToOneField(Jogador, on_delete=models.CASCADE, primary_key=True)  # Relacionamento 1-1 com Jogador
-    valor_venda = models.PositiveIntegerField()  # Valor da venda
-    temporada_venda = models.CharField(max_length=7, choices=Estatistica.TEMPORADAS_CHOICES)  # Temporada da venda
+    jogador = models.OneToOneField(Jogador, on_delete=models.CASCADE, primary_key=True)  
+    valor_venda = models.PositiveIntegerField() 
+    temporada_venda = models.CharField(max_length=7, choices=Estatistica.TEMPORADAS_CHOICES)  
 
     def save(self, *args, **kwargs):
-        # Impede a criação de estatísticas após a venda
         if self.jogador.estatisticas.filter(temporada__gte=self.temporada_venda).exists():
             raise ValueError("Não é possível adicionar estatísticas após a venda do jogador.")
         super().save(*args, **kwargs)
