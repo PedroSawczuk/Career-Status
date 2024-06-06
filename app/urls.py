@@ -11,4 +11,7 @@ urlpatterns = [
     path('adicionar_estatisticas/<int:pk>/', AdicionarEstatisticasView.as_view(), name='adicionar_estatisticas'),
     path('editar_estatisticas/<int:pk>/', EditarEstatisticasView.as_view(), name='editar_estatisticas'),
     path('jogadores_vendidos/', JogadoresVendidosView.as_view(), name='jogadores_vendidos'),
+
+    path('excluir_jogador/<int:pk>/', ExcluirJogadorView.as_view(), name='excluir_jogador'),
+
 ]

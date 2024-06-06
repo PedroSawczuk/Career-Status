@@ -71,6 +71,12 @@
             <td>{{ jogador.potencial_min }} - {{ jogador.potencial_max }}</td>
             <td>{{ jogador.get_nacionalidade_display }}</td>
             <td>{{ jogador.temporada_subida }}</td>
+            <td>
+              <form action="{% url 'excluir_jogador' jogador.pk %}" method="post">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
+              </form>
+            </td>
           </tr>
           {% endfor %}
         </tbody>

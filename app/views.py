@@ -100,3 +100,8 @@ class EstatisticasView(ListView):
             'jogadores_por_posicao': jogadores_por_posicao,
             'paises_com_mais_jogadores': paises_com_mais_jogadores
         }
+
+class ExcluirJogadorView(DeleteView):
+    model = Jogador
+    template_name = 'time/excluirJogador.html'  
+    success_url = reverse_lazy('jogadores_vendidos')
