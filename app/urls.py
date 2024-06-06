@@ -1,5 +1,4 @@
 from django.urls import path
-
 from app.views import *
 
 urlpatterns = [
@@ -8,6 +7,8 @@ urlpatterns = [
     path('ver_jogadores/', VerJogadoresView.as_view(), name='ver_jogadores'),
     path('estatisticas/', EstatisticasView.as_view(), name='estatisticas'),
     path('ver_jogador/<int:pk>/', VerJogadorView.as_view(), name='ver_jogador'),
+    path('jogador/<int:pk>/vender/', MarcarJogadorVendidoView.as_view(), name='marcar_jogador_vendido'),
     path('adicionar_estatisticas/<int:pk>/', AdicionarEstatisticasView.as_view(), name='adicionar_estatisticas'),
     path('editar_estatisticas/<int:pk>/', EditarEstatisticasView.as_view(), name='editar_estatisticas'),
+    path('jogadores_vendidos/', JogadoresVendidosView.as_view(), name='jogadores_vendidos'),
 ]

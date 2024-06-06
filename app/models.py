@@ -101,6 +101,7 @@ class Jogador(models.Model):
     potencial_max = models.PositiveIntegerField()
     nacionalidade = models.CharField(max_length=3, choices=PAISES_CHOICES)
     temporada_subida = models.CharField(max_length=7, choices=TEMPORADAS_CHOICES)
+    vendido = models.BooleanField(default=False)  # Novo campo adicionado
 
     def __str__(self):
         return self.nome

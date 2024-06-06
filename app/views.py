@@ -1,8 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.urls import reverse_lazy
 from django.views.generic import *
 from django.views.generic import ListView
-from django.db.models import Sum, Avg, F, ExpressionWrapper, FloatField
+from django.db.models import Count, Avg, FloatField, ExpressionWrapper, Sum
 from .models import *
 
 class HomePageView(TemplateView):
@@ -19,6 +19,25 @@ class VerJogadoresView(ListView):
     template_name = 'time/verJogadores.html'
     context_object_name = 'jogadores'
 
+    def get_queryset(self):
+        # Filtra jogadores que não foram vendidos
+        return Jogador.objects.filter(vendido=False)
+    
+class MarcarJogadorVendidoView(View):
+    def post(self, request, pk, *args, **kwargs):
+        jogador = get_object_or_404(Jogador, pk=pk)
+        jogador.vendido = True
+        jogador.save()
+        return redirect('ver_jogadores') 
+    
+class JogadoresVendidosView(ListView):
+    model = Jogador
+    template_name = 'time/jogadoresVendidos.html'
+    context_object_name = 'jogadores_vendidos'
+
+    def get_queryset(self):
+        return Jogador.objects.filter(vendido=True)
+    
 class VerJogadorView(DetailView):
     model = Jogador
     template_name = 'time/verJogador.html'
@@ -61,8 +80,13 @@ class EstatisticasView(ListView):
             )
         ).order_by('-media_participacao')[:10]
 
-        top_potenciais_nacionalidades = NacionalidadeEstatistica.objects.filter(potencial_medio__gt=0).order_by('-potencial_medio')[:10]
-        piores_potenciais_nacionalidades = NacionalidadeEstatistica.objects.filter(potencial_medio__gt=0).order_by('potencial_medio')[:10]
+        top_potenciais_nacionalidades = Jogador.objects.values('nacionalidade').annotate(potencial_medio=Avg('potencial_max')).order_by('-potencial_medio')[:10]
+        piores_potenciais_nacionalidades = Jogador.objects.values('nacionalidade').annotate(potencial_medio=Avg('potencial_max')).order_by('potencial_medio')[:10]
+
+        jogadores_por_temporada = Jogador.objects.values('temporada_subida').annotate(total=Count('id')).order_by('temporada_subida')
+        media_potencial = Jogador.objects.aggregate(media_potencial_min=Avg('potencial_min'), media_potencial_max=Avg('potencial_max'))
+        jogadores_por_posicao = Jogador.objects.values('posicao').annotate(total=Count('id')).order_by('-total')
+        paises_com_mais_jogadores = Jogador.objects.values('nacionalidade').annotate(total=Count('id')).order_by('-total')[:10]
 
         return {
             'top_gols': top_gols,
@@ -70,5 +94,9 @@ class EstatisticasView(ListView):
             'top_jogos': top_jogos,
             'top_media_participacao': top_media_participacao,
             'top_potenciais_nacionalidades': top_potenciais_nacionalidades,
-            'piores_potenciais_nacionalidades': piores_potenciais_nacionalidades
+            'piores_potenciais_nacionalidades': piores_potenciais_nacionalidades,
+            'jogadores_por_temporada': jogadores_por_temporada,
+            'media_potencial': media_potencial,
+            'jogadores_por_posicao': jogadores_por_posicao,
+            'paises_com_mais_jogadores': paises_com_mais_jogadores
         }

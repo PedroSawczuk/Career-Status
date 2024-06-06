@@ -41,6 +41,11 @@
                 >Estatísticas</a
               >
             </li>
+            <li class="nav-item">
+                <a class="nav-link" href="{% url 'jogadores_vendidos' %}"
+                  >Jogadores Vendidos</a
+                >
+              </li>
           </ul>
         </div>
       </div>
@@ -69,6 +74,7 @@
             <td>{{ jogador.potencial_min }} - {{ jogador.potencial_max }}</td>
             <td>{{ jogador.get_nacionalidade_display }}</td>
             <td>
+              {% if not jogador.vendido %}
               <a
                 href="{% url 'adicionar_estatisticas' jogador.pk %}"
                 class="btn btn-sm btn-success"
@@ -79,6 +85,19 @@
                 class="btn btn-sm btn-warning"
                 >Edit. Est.</a
               >
+              <form
+                action="{% url 'marcar_jogador_vendido' jogador.pk %}"
+                method="post"
+                style="display: inline"
+              >
+                {% csrf_token %}
+                <button type="submit" class="btn btn-sm btn-danger">
+                  Marcar como Vendido
+                </button>
+              </form>
+              {% else %}
+              <span>Vendido</span>
+              {% endif %}
             </td>
           </tr>
           {% endfor %}
