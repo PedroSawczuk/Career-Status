@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ver Jogador - CareerStatus</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <header class="bg-dark text-white py-3">
+        <div class="container">
+            <h1 class="text-center">Ver Jogador</h1>
+        </div>
+    </header>
+
+    <main class="container mt-4">
+        <h2>{{ jogador.nome }}</h2>
+
+        <div class="row">
+            <div class="col-md-6">
+                <p><strong>Posição:</strong> {{ jogador.posicao }}</p>
+                <p><strong>Potencial:</strong> {{ jogador.potencial_min }} - {{ jogador.potencial_max }}</p>
+                <p><strong>Nacionalidade:</strong> {{ jogador.get_nacionalidade_display }}</p>
+            </div>
+            <div class="col-md-6">
+                {% if jogador.vendido %}
+                    <p class="text-danger"><strong>Jogador Vendido</strong></p>
+                    <p><strong>Valor da Venda:</strong> {{ jogador.jogadorvendido.valor_venda }}</p>
+                    <p><strong>Temporada da Venda:</strong> {{ jogador.jogadorvendido.temporada_venda }}</p>
+                {% endif %}
+            </div>
+        </div>
+
+        <h3>Estatísticas por Temporada</h3>
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>Temporada</th>
+                    <th>Gols</th>
+                    <th>Assistências</th>
+                    <th>Jogos</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for estatistica in jogador.estatisticas.all %} 
+                    <tr>
+                        <td>{{ estatistica.temporada }}</td>
+                        <td>{{ estatistica.gols }}</td>
+                        <td>{{ estatistica.assistencias }}</td>
+                        <td>{{ estatistica.jogos }}</td>
+                    </tr>
+                {% empty %}
+                    <tr>
+                        <td colspan="4">Nenhuma estatística encontrada para este jogador.</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com

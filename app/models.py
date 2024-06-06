@@ -1,4 +1,6 @@
 from django.db import models
+from django.dispatch import receiver
+from django.db.models.signals import post_save  # Importe post_save
 
 class Jogador(models.Model):
 
@@ -129,15 +131,9 @@ class Estatistica(models.Model):
     def __str__(self):
         return f"{self.jogador} - {self.temporada}"
 
-class JogadorVendido(models.Model):
-    jogador = models.OneToOneField(Jogador, on_delete=models.CASCADE, primary_key=True)  
-    valor_venda = models.PositiveIntegerField() 
-    temporada_venda = models.CharField(max_length=7, choices=Estatistica.TEMPORADAS_CHOICES)  
-
-    def save(self, *args, **kwargs):
-        if self.jogador.estatisticas.filter(temporada__gte=self.temporada_venda).exists():
-            raise ValueError("Não é possível adicionar estatísticas após a venda do jogador.")
-        super().save(*args, **kwargs)
+class NacionalidadeEstatistica(models.Model):
+    nacionalidade = models.CharField(max_length=3, choices=Jogador.PAISES_CHOICES)
+    potencial_medio = models.FloatField()
 
     def __str__(self):
-        return f"{self.jogador} - Vendido por {self.valor_venda} na temporada {self.temporada_venda}"
+        return self.nacionalidade

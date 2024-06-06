@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Estatísticas - CareerStatus</title>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <header class="bg-dark text-white py-3">
+      <div class="container">
+        <h1 class="text-center">Estatísticas</h1>
+      </div>
+    </header>
+
+    <main class="container mt-4">
+      <h2>Top 10 Jogadores</h2>
+
+      <div class="row">
+        <div class="col-md-6">
+          <h3>Mais Gols</h3>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Posição</th>
+                <th>Jogador</th>
+                <th>Gols</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for jogador in top_gols %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ jogador.nome }}</td>
+                <td>{{ jogador.total_gols }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <h3>Mais Assistências</h3>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Posição</th>
+                <th>Jogador</th>
+                <th>Assistências</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for jogador in top_assistencias %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ jogador.nome }}</td>
+                <td>{{ jogador.total_assistencias }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <h3>Mais Jogos</h3>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Posição</th>
+                <th>Jogador</th>
+                <th>Jogos</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for jogador in top_jogos %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ jogador.nome }}</td>
+                <td>{{ jogador.total_jogos }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <h3>Melhor Média de Participação</h3>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Posição</th>
+                <th>Jogador</th>
+                <th>Média</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for jogador in top_media_participacao %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ jogador.nome }}</td>
+                <td>{{ jogador.media_participacao }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <h2>Top 10 Nacionalidades</h2>
+
+      <div class="row mt-4">
+        <div class="col-md-6">
+          <h3>Maiores Potenciais</h3>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Posição</th>
+                <th>Nacionalidade</th>
+                <th>Potencial Médio</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for pais in top_potenciais_nacionalidades %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ pais.nome }}</td>
+                <td>{{ pais.potencial_medio }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+        <div class="col-md-6">
+          <h3>Menores Potenciais</h3>
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th>Posição</th>
+                <th>Nacionalidade</th>
+                <th>Potencial Médio</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for pais in piores_potenciais_nacionalidades %}
+              <tr>
+                <td>{{ forloop.counter }}</td>
+                <td>{{ pais.nome }}</td>
+                <td>{{ pais.potencial_medio }}</td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </main>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  </body>
+</html>
