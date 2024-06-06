@@ -29,7 +29,15 @@ class MarcarJogadorVendidoView(View):
         jogador.vendido = True
         jogador.save()
         return redirect('ver_jogadores') 
-    
+
+
+class RetirarVendaJogadorView(View):
+    def post(self, request, pk):
+        jogador = Jogador.objects.get(pk=pk)
+        jogador.vendido = False
+        jogador.save()
+        return redirect('ver_jogadores')
+     
 class JogadoresVendidosView(ListView):
     model = Jogador
     template_name = 'time/jogadoresVendidos.html'
@@ -38,10 +46,42 @@ class JogadoresVendidosView(ListView):
     def get_queryset(self):
         return Jogador.objects.filter(vendido=True)
     
+
+    
 class VerJogadorView(DetailView):
     model = Jogador
     template_name = 'time/verJogador.html'
     context_object_name = 'jogador'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        jogador = self.object
+        estatisticas = jogador.estatisticas.all()
+
+        total_jogos = estatisticas.aggregate(Sum('jogos'))['jogos__sum'] or 0
+        total_gols = estatisticas.aggregate(Sum('gols'))['gols__sum'] or 0
+        total_assistencias = estatisticas.aggregate(Sum('assistencias'))['assistencias__sum'] or 0
+        
+        # Calculate average goals per game
+        if total_jogos > 0:
+            media_gols_por_jogo = total_gols / total_jogos
+        else:
+            media_gols_por_jogo = 0
+        
+        # Get the best season for goals and assists
+        melhor_temporada_gols = estatisticas.order_by('-gols').first()
+        melhor_temporada_assistencias = estatisticas.order_by('-assistencias').first()
+
+        context.update({
+            'total_jogos': total_jogos,
+            'total_gols': total_gols,
+            'total_assistencias': total_assistencias,
+            'media_gols_por_jogo': media_gols_por_jogo,
+            'melhor_temporada_gols': melhor_temporada_gols,
+            'melhor_temporada_assistencias': melhor_temporada_assistencias,
+        })
+
+        return context
 
 class AdicionarEstatisticasView(CreateView):
     model = Estatistica
@@ -64,11 +104,15 @@ class EditarEstatisticasView(UpdateView):
     def get_success_url(self):
         return reverse_lazy('ver_jogador', kwargs={'pk': self.object.jogador.pk})
 
+
 class EstatisticasView(ListView):
     template_name = 'time/estatisticas.html'
     context_object_name = 'estatisticas'
+    queryset = Jogador.objects.all()  # Definindo um queryset aqui, mesmo que não seja usado
 
-    def get_queryset(self):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        
         top_gols = Estatistica.objects.values('jogador__nome').annotate(total_gols=Sum('gols')).order_by('-total_gols')[:10]
         top_assistencias = Estatistica.objects.values('jogador__nome').annotate(total_assistencias=Sum('assistencias')).order_by('-total_assistencias')[:10]
         top_jogos = Estatistica.objects.values('jogador__nome').annotate(total_jogos=Sum('jogos')).order_by('-total_jogos')[:10]
@@ -80,27 +124,29 @@ class EstatisticasView(ListView):
             )
         ).order_by('-media_participacao')[:10]
 
-        top_potenciais_nacionalidades = Jogador.objects.values('nacionalidade').annotate(potencial_medio=Avg('potencial_max')).order_by('-potencial_medio')[:10]
-        piores_potenciais_nacionalidades = Jogador.objects.values('nacionalidade').annotate(potencial_medio=Avg('potencial_max')).order_by('potencial_medio')[:10]
-
         jogadores_por_temporada = Jogador.objects.values('temporada_subida').annotate(total=Count('id')).order_by('temporada_subida')
         media_potencial = Jogador.objects.aggregate(media_potencial_min=Avg('potencial_min'), media_potencial_max=Avg('potencial_max'))
         jogadores_por_posicao = Jogador.objects.values('posicao').annotate(total=Count('id')).order_by('-total')
         paises_com_mais_jogadores = Jogador.objects.values('nacionalidade').annotate(total=Count('id')).order_by('-total')[:10]
 
-        return {
+        gols_por_posicao = Estatistica.objects.exclude(jogador__posicao='Goleiro').values('jogador__posicao').annotate(total_gols=Sum('gols'))
+        gols_por_pais = Estatistica.objects.values('jogador__nacionalidade').annotate(total_gols=Sum('gols'))
+
+        
+        context.update({
             'top_gols': top_gols,
             'top_assistencias': top_assistencias,
             'top_jogos': top_jogos,
             'top_media_participacao': top_media_participacao,
-            'top_potenciais_nacionalidades': top_potenciais_nacionalidades,
-            'piores_potenciais_nacionalidades': piores_potenciais_nacionalidades,
             'jogadores_por_temporada': jogadores_por_temporada,
             'media_potencial': media_potencial,
             'jogadores_por_posicao': jogadores_por_posicao,
-            'paises_com_mais_jogadores': paises_com_mais_jogadores
-        }
+            'paises_com_mais_jogadores': paises_com_mais_jogadores,
+            'gols_por_posicao': gols_por_posicao,
+            'gols_por_pais': gols_por_pais,
+        })
 
+        return context
 class ExcluirJogadorView(DeleteView):
     model = Jogador
     template_name = 'time/excluirJogador.html'  
