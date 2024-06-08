@@ -3,6 +3,8 @@ from django.urls import reverse_lazy
 from django.views.generic import *
 from django.views.generic import ListView
 from django.db.models import Count, Avg, FloatField, ExpressionWrapper, Sum
+
+from app.forms import EstatisticaForm
 from .models import *
 
 class HomePageView(TemplateView):
@@ -85,14 +87,20 @@ class VerJogadorView(DetailView):
 
 class AdicionarEstatisticasView(CreateView):
     model = Estatistica
-    fields = ['temporada', 'gols', 'assistencias', 'jogos']
+    form_class = EstatisticaForm
     template_name = 'time/adicionarEstatisticas.html'
 
     def get_success_url(self):
-        return reverse_lazy('ver_jogadores')  # Redireciona para a página do jogador
+        return reverse_lazy('ver_jogadores')
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        jogador = get_object_or_404(Jogador, pk=self.kwargs['pk'])
+        kwargs['jogador'] = jogador
+        return kwargs
 
     def form_valid(self, form):
-        jogador = Jogador.objects.get(pk=self.kwargs['pk'])
+        jogador = get_object_or_404(Jogador, pk=self.kwargs['pk'])
         form.instance.jogador = jogador
         return super().form_valid(form)
 

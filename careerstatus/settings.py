@@ -78,9 +78,9 @@ WSGI_APPLICATION = 'careerstatus.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
-        'NAME': 'careerstatus_db',  
-        'USER': 'root',     
-        'PASSWORD': 'alunoifro',   
+        'NAME': 'careerstatus_db', # Adicione seu banco de dados
+        'USER': 'root', # Adicione seu user     
+        'PASSWORD': 'alunoifro', # Adicione sua senha   
         'HOST': 'localhost',             
         'PORT': '3306',                  
     }
