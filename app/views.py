@@ -21,7 +21,7 @@ class VerJogadoresView(ListView):
 
     def get_queryset(self):
         # Filtra jogadores que não foram vendidos
-        return Jogador.objects.filter(vendido=False)
+        return Jogador.objects.filter(vendido=False).order_by('nome')
     
 class MarcarJogadorVendidoView(View):
     def post(self, request, pk, *args, **kwargs):
@@ -89,7 +89,7 @@ class AdicionarEstatisticasView(CreateView):
     template_name = 'time/adicionarEstatisticas.html'
 
     def get_success_url(self):
-        return reverse_lazy('ver_jogador', kwargs={'pk': self.kwargs['pk']})  # Redireciona para a página do jogador
+        return reverse_lazy('ver_jogadores')  # Redireciona para a página do jogador
 
     def form_valid(self, form):
         jogador = Jogador.objects.get(pk=self.kwargs['pk'])
