@@ -1,7 +1,6 @@
 from django.db import models
 from django.dispatch import receiver
 from django.db.models.signals import post_save
-from django.forms import ValidationError  # Importe post_save
 
 class Jogador(models.Model):
 
@@ -92,8 +91,6 @@ class Jogador(models.Model):
         ("VEN", "Venezuela")
     )
 
-
-
     id = models.AutoField(primary_key=True)  
     nome = models.CharField(max_length=100)
     posicao = models.CharField(max_length=3, choices=POSICOES_CHOICES)
@@ -101,7 +98,7 @@ class Jogador(models.Model):
     potencial_max = models.PositiveIntegerField()
     nacionalidade = models.CharField(max_length=3, choices=PAISES_CHOICES)
     temporada_subida = models.CharField(max_length=7, choices=TEMPORADAS_CHOICES)
-    vendido = models.BooleanField(default=False)  # Novo campo adicionado
+    vendido = models.BooleanField(default=False)  
 
     def __str__(self):
         return self.nome

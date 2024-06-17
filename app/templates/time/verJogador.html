@@ -1,103 +1,139 @@
 <!DOCTYPE html>
 <html lang="pt-br">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ver Jogador - CareerStatus</title>
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-</head>
-<body>
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="{% url 'home' %}">CareerStatus</a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-          </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'criar_jogador' %}">Adicionar Jogador</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'ver_jogadores' %}">Ver Jogadores</a>
-                </li>
-                <li class="nav-item">
-                  <a class="nav-link" href="{% url 'estatisticas' %}">Estatísticas</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="{% url 'jogadores_vendidos' %}">Jogadores Vendidos</a>
-                  </li>
-              </ul>
-          </div>
+      <div class="container">
+        <a class="navbar-brand" href="{% url 'home' %}">CareerStatus</a>
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+          <ul class="navbar-nav">
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'criar_jogador' %}"
+                >Adicionar Jogador</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'ver_jogadores' %}"
+                >Ver Jogadores</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'estatisticas' %}"
+                >Estatísticas</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'jogadores_vendidos' %}"
+                >Jogadores Vendidos</a
+              >
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'jogadores_por_temporada' %}"
+                >Dados Por Temporada</a
+              >
+            </li>
+          </ul>
         </div>
-      </nav>
+      </div>
+    </nav>
 
     <main class="container mt-4">
-        <h2>{{ jogador.nome }}</h2>
+      <h2>{{ jogador.nome }}</h2>
 
-        <div class="row">
-            <div class="col-md-6">
-                <p><strong>Posição:</strong> {{ jogador.posicao }}</p>
-                <p><strong>Potencial:</strong> {{ jogador.potencial_min }} - {{ jogador.potencial_max }}</p>
-                <p><strong>Nacionalidade:</strong> {{ jogador.get_nacionalidade_display }}</p>
-            </div>
+      <div class="row">
+        <div class="col-md-6">
+          <p><strong>Posição:</strong> {{ jogador.posicao }}</p>
+          <p>
+            <strong>Potencial:</strong> {{ jogador.potencial_min }} - {{
+            jogador.potencial_max }}
+          </p>
+          <p>
+            <strong>Nacionalidade:</strong> {{ jogador.get_nacionalidade_display
+            }}
+          </p>
         </div>
+      </div>
 
-        <h3>Estatísticas por Temporada</h3>
-        <table class="table table-striped">
-            <thead>
-                <tr>
-                    <th>Temporada</th>
-                    <th>Gols</th>
-                    <th>Assistências</th>
-                    <th>Jogos</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for estatistica in jogador.estatisticas.all %}
-                    <tr>
-                        <td>{{ estatistica.temporada }}</td>
-                        <td>{{ estatistica.gols }}</td>
-                        <td>{{ estatistica.assistencias }}</td>
-                        <td>{{ estatistica.jogos }}</td>
-                    </tr>
-                {% empty %}
-                    <tr>
-                        <td colspan="4">Nenhuma estatística encontrada para este jogador.</td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+      <h3>Estatísticas por Temporada</h3>
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Temporada</th>
+            <th>Gols</th>
+            <th>Assistências</th>
+            <th>Jogos</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for estatistica in jogador.estatisticas.all %}
+          <tr>
+            <td>{{ estatistica.temporada }}</td>
+            <td>{{ estatistica.gols }}</td>
+            <td>{{ estatistica.assistencias }}</td>
+            <td>{{ estatistica.jogos }}</td>
+          </tr>
+          {% empty %}
+          <tr>
+            <td colspan="4">
+              Nenhuma estatística encontrada para este jogador.
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
 
-        <h3>Estatísticas Gerais</h3>
-        <div class="row">
-            <div class="col-md-4">
-                <p><strong>Total de Jogos:</strong> {{ total_jogos }}</p>
-                <p><strong>Total de Gols:</strong> {{ total_gols }}</p>
-                <p><strong>Total de Assistências:</strong> {{ total_assistencias }}</p>
-                <p><strong>Média de Gols por Jogo:</strong> {{ media_gols_por_jogo|floatformat:2 }}</p>
-            </div>
-            <div class="col-md-8">
-                <p><strong>Melhor Temporada (Gols):</strong>
-                    {% if melhor_temporada_gols %}
-                        {{ melhor_temporada_gols.temporada }} ({{ melhor_temporada_gols.gols }} gols)
-                    {% else %}
-                        Nenhum registro de gols.
-                    {% endif %}
-                </p>
-                <p><strong>Melhor Temporada (Assistências):</strong>
-                    {% if melhor_temporada_assistencias %}
-                        {{ melhor_temporada_assistencias.temporada }} ({{ melhor_temporada_assistencias.assistencias }} assistências)
-                    {% else %}
-                        Nenhum registro de assistências.
-                    {% endif %}
-                </p>
-            </div>
+      <h3>Estatísticas Gerais</h3>
+      <div class="row">
+        <div class="col-md-4">
+          <p><strong>Total de Jogos:</strong> {{ total_jogos }}</p>
+          <p><strong>Total de Gols:</strong> {{ total_gols }}</p>
+          <p>
+            <strong>Total de Assistências:</strong> {{ total_assistencias }}
+          </p>
+          <p>
+            <strong>Média de Gols por Jogo:</strong> {{
+            media_gols_por_jogo|floatformat:2 }}
+          </p>
         </div>
+        <div class="col-md-8">
+          <p>
+            <strong>Melhor Temporada (Gols):</strong>
+            {% if melhor_temporada_gols %} {{ melhor_temporada_gols.temporada }}
+            ({{ melhor_temporada_gols.gols }} gols) {% else %} Nenhum registro
+            de gols. {% endif %}
+          </p>
+          <p>
+            <strong>Melhor Temporada (Assistências):</strong>
+            {% if melhor_temporada_assistencias %} {{
+            melhor_temporada_assistencias.temporada }} ({{
+            melhor_temporada_assistencias.assistencias }} assistências) {% else
+            %} Nenhum registro de assistências. {% endif %}
+          </p>
+        </div>
+      </div>
     </main>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-</body>
+  </body>
 </html>

@@ -22,9 +22,33 @@ class VerJogadoresView(ListView):
     context_object_name = 'jogadores'
 
     def get_queryset(self):
-        # Filtra jogadores que não foram vendidos
         return Jogador.objects.filter(vendido=False).order_by('nome')
-    
+
+class JogadoresPorTemporadaView(TemplateView):
+    template_name = 'time/jogadoresPorTemporada.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        temporadas_com_dados = Estatistica.objects.values_list('temporada', flat=True).distinct()
+
+        dados_por_temporada = {}
+        for temporada in temporadas_com_dados:
+            estatisticas = Estatistica.objects.filter(temporada=temporada)
+            jogadores_estatisticas = [
+                {
+                    'nome': estatistica.jogador.nome,
+                    'nacionalidade': estatistica.jogador.get_nacionalidade_display(),
+                    'jogos': estatistica.jogos,
+                    'gols': estatistica.gols,
+                    'assistencias': estatistica.assistencias
+                }
+                for estatistica in estatisticas
+            ]
+            dados_por_temporada[temporada] = jogadores_estatisticas
+
+        context['dados_por_temporada'] = dados_por_temporada
+        return context
+
 class MarcarJogadorVendidoView(View):
     def post(self, request, pk, *args, **kwargs):
         jogador = get_object_or_404(Jogador, pk=pk)
@@ -47,8 +71,6 @@ class JogadoresVendidosView(ListView):
 
     def get_queryset(self):
         return Jogador.objects.filter(vendido=True)
-    
-
     
 class VerJogadorView(DetailView):
     model = Jogador
