@@ -1,7 +1,6 @@
 import mysql.connector
 
-# Configurações do banco de dados
-db_config = {
+dbConfig = {
     'user': 'root',
     'password': 'alunoifro',
     'host': 'localhost',
@@ -9,24 +8,20 @@ db_config = {
     'database': 'careerstatus_db'
 }
 
-# Tabelas a serem limpas
-tables = [
+tabelas = [
     'app_estatistica',
     'app_jogador',
     'app_nacionalidadeestatistica'
 ]
 
 try:
-    # Conectando ao banco de dados
-    connection = mysql.connector.connect(**db_config)
+    connection = mysql.connector.connect(**dbConfig)
     cursor = connection.cursor()
 
-    # Limpando cada tabela
-    for table in tables:
+    for table in tabelas:
         cursor.execute(f"DELETE FROM {table};")
         print(f"Registros deletados da tabela {table}")
 
-    # Confirmando as alterações
     connection.commit()
 
 except mysql.connector.Error as err:
@@ -34,7 +29,6 @@ except mysql.connector.Error as err:
     if connection:
         connection.rollback()
 finally:
-    # Fechando a conexão com o banco de dados
     if cursor:
         cursor.close()
     if connection:

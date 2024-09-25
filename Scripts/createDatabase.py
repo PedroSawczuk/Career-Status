@@ -1,7 +1,7 @@
 import mysql.connector
 from mysql.connector import Error
 
-def create_database(host, user, password, name, port=3306):
+def criarDB(host, user, password, name, port=3306):
     try:
         connection = mysql.connector.connect(
             host=host,
@@ -35,7 +35,7 @@ def main():
     else:
         port = int(port)
 
-    create_database(host, user, password, name, port)
+    criarDB(host, user, password, name, port)
 
 if __name__ == "__main__":
     main()
