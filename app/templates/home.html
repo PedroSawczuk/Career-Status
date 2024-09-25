@@ -3,11 +3,12 @@
 {% block title %}Home - CareerStatus{% endblock %}
 
 {% block content %}
-<div class="row justify-content-center">
-  <div class="col-md-6">
-    <a href="{% url 'criar_jogador' %}" class="btn btn-primary btn-block mb-2">Adicionar Jogador</a>
-    <a href="{% url 'ver_jogadores' %}" class="btn btn-secondary btn-block mb-2">Ver Jogadores</a>
-    <a href="{% url 'estatisticas' %}" class="btn btn-info btn-block">Estatísticas</a>
+<div class="flex justify-center mt-8">
+  <div class="w-full max-w-xs">
+    <a href="{% url 'criar_jogador' %}" class="block bg-blue-500 text-white text-center py-2 rounded mb-2 hover:bg-blue-600">Adicionar Jogador</a>
+    <a href="{% url 'ver_jogadores' %}" class="block bg-gray-400 text-white text-center py-2 rounded mb-2 hover:bg-gray-500">Ver Jogadores</a>
+    <a href="{% url 'estatisticas' %}" class="block bg-teal-500 text-white text-center py-2 rounded hover:bg-teal-600">Estatísticas</a>
   </div>
 </div>
 {% endblock %}
+    

@@ -3,56 +3,54 @@
 {% block title %}Ver Jogador - CareerStatus{% endblock %}
 
 {% block content %}
-<main class="container mt-4">
-  <h2>{{ jogador.nome }}</h2>
+<main class="container mx-auto mt-4">
+  <h2 class="text-2xl font-bold">{{ jogador.nome }}</h2>
 
-  <div class="row">
-    <div class="col-md-6">
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+    <div>
       <p><strong>Posição:</strong> {{ jogador.posicao }}</p>
-      <p>
-        <strong>Potencial:</strong> {{ jogador.potencial_min }} - {{ jogador.potencial_max }}
-      </p>
-      <p>
-        <strong>Nacionalidade:</strong> {{ jogador.get_nacionalidade_display }}
-      </p>
+      <p><strong>Potencial:</strong> {{ jogador.potencial_min }} - {{ jogador.potencial_max }}</p>
+      <p><strong>Nacionalidade:</strong> {{ jogador.get_nacionalidade_display }}</p>
     </div>
   </div>
 
-  <h3>Estatísticas por Temporada</h3>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Temporada</th>
-        <th>Gols</th>
-        <th>Assistências</th>
-        <th>Jogos</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for estatistica in jogador.estatisticas.all %}
-      <tr>
-        <td>{{ estatistica.temporada }}</td>
-        <td>{{ estatistica.gols }}</td>
-        <td>{{ estatistica.assistencias }}</td>
-        <td>{{ estatistica.jogos }}</td>
-      </tr>
-      {% empty %}
-      <tr>
-        <td colspan="4">Nenhuma estatística encontrada para este jogador.</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <h3 class="text-xl font-semibold mt-6">Estatísticas por Temporada</h3>
+  <div class="overflow-x-auto mt-2">
+    <table class="min-w-full bg-white border border-gray-200">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="py-2 px-4 border-b">Temporada</th>
+          <th class="py-2 px-4 border-b">Gols</th>
+          <th class="py-2 px-4 border-b">Assistências</th>
+          <th class="py-2 px-4 border-b">Jogos</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for estatistica in jogador.estatisticas.all %}
+        <tr class="hover:bg-gray-50">
+          <td class="py-2 px-4 border-b">{{ estatistica.temporada }}</td>
+          <td class="py-2 px-4 border-b">{{ estatistica.gols }}</td>
+          <td class="py-2 px-4 border-b">{{ estatistica.assistencias }}</td>
+          <td class="py-2 px-4 border-b">{{ estatistica.jogos }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" class="py-2 px-4 text-center">Nenhuma estatística encontrada para este jogador.</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
-  <h3>Estatísticas Gerais</h3>
-  <div class="row">
-    <div class="col-md-4">
+  <h3 class="text-xl font-semibold mt-6">Estatísticas Gerais</h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+    <div>
       <p><strong>Total de Jogos:</strong> {{ total_jogos }}</p>
       <p><strong>Total de Gols:</strong> {{ total_gols }}</p>
       <p><strong>Total de Assistências:</strong> {{ total_assistencias }}</p>
       <p><strong>Média de Gols por Jogo:</strong> {{ media_gols_por_jogo|floatformat:2 }}</p>
     </div>
-    <div class="col-md-8">
+    <div>
       <p>
         <strong>Melhor Temporada (Gols):</strong>
         {% if melhor_temporada_gols %} {{ melhor_temporada_gols.temporada }} ({{ melhor_temporada_gols.gols }} gols)

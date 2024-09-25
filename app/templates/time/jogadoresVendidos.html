@@ -3,45 +3,45 @@
 {% block title %}Jogadores Vendidos - CareerStatus{% endblock %}
 
 {% block content %}
-<div class="container mt-4">
-  <h1>Jogadores Vendidos</h1>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Nome</th>
-        <th>Posição</th>
-        <th>Potencial</th>
-        <th>Nacionalidade</th>
-        <th>Temporada de Subida</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for jogador in jogadores_vendidos %}
-      <tr>
-        <td>{{ jogador.nome }}</td>
-        <td>{{ jogador.get_posicao_display }}</td>
-        <td>{{ jogador.potencial_min }} - {{ jogador.potencial_max }}</td>
-        <td>{{ jogador.get_nacionalidade_display }}</td>
-        <td>{{ jogador.temporada_subida }}</td>
-        <td>
-          <form action="{% url 'excluir_jogador' jogador.pk %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
-          </form>
-        </td>
-        <td>
-          {% if jogador.vendido %}
-          <form action="{% url 'retirar_venda_jogador' jogador.pk %}" method="post">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-warning btn-sm">Retirar de Vendidos</button>
-          </form>
-          {% endif %}
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
-  <a href="{% url 'ver_jogadores' %}" class="btn btn-primary">Voltar</a>
+<div class="container mx-auto mt-4">
+  <h1 class="text-3xl font-bold">Jogadores Vendidos</h1>
+  <div class="overflow-x-auto mt-4">
+    <table class="min-w-full bg-white border border-gray-200">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="py-2 px-4 border-b">Nome</th>
+          <th class="py-2 px-4 border-b">Posição</th>
+          <th class="py-2 px-4 border-b">Potencial</th>
+          <th class="py-2 px-4 border-b">Nacionalidade</th>
+          <th class="py-2 px-4 border-b">Temporada de Subida</th>
+          <th class="py-2 px-4 border-b">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for jogador in jogadores_vendidos %}
+        <tr class="hover:bg-gray-50">
+          <td class="py-2 px-4 border-b">{{ jogador.nome }}</td>
+          <td class="py-2 px-4 border-b">{{ jogador.get_posicao_display }}</td>
+          <td class="py-2 px-4 border-b">{{ jogador.potencial_min }} - {{ jogador.potencial_max }}</td>
+          <td class="py-2 px-4 border-b">{{ jogador.get_nacionalidade_display }}</td>
+          <td class="py-2 px-4 border-b">{{ jogador.temporada_subida }}</td>
+          <td class="py-2 px-4 border-b">
+            <form action="{% url 'excluir_jogador' jogador.pk %}" method="post" style="display: inline;">
+              {% csrf_token %}
+              <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Excluir</button>
+            </form>
+            {% if jogador.vendido %}
+            <form action="{% url 'retirar_venda_jogador' jogador.pk %}" method="post" style="display: inline;">
+              {% csrf_token %}
+              <button type="submit" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">Retirar de Vendidos</button>
+            </form>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  <a href="{% url 'ver_jogadores' %}" class="mt-4 inline-block bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600">Voltar</a>
 </div>
 {% endblock %}

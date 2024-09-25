@@ -5,56 +5,57 @@ Estatísticas - CareerStatus
 {% endblock %}
 
 {% block content %}
-<main class="container mt-4">
-  <h2>Top 10 Jogadores</h2>
-  <div class="row">
+<main class="container mx-auto mt-4 px-4">
+  <h2 class="text-2xl font-bold">Top 10 Jogadores</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
     <!-- Mais Gols -->
-    <div class="col-md-6">
-      <h3>Mais Gols</h3>
-      <table class="table table-striped">
-        <thead>
+    <div class="bg-white shadow-md rounded-lg p-4">
+      <h3 class="text-xl font-semibold">Mais Gols</h3>
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
           <tr>
-            <th>Posição</th>
-            <th>Jogador</th>
-            <th>Gols</th>
+            <th class="px-4 py-2">Posição</th>
+            <th class="px-4 py-2">Jogador</th>
+            <th class="px-4 py-2">Gols</th>
           </tr>
         </thead>
         <tbody>
           {% for jogador in top_gols %}
           <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ jogador.jogador__nome }}</td>
-            <td>{{ jogador.total_gols }}</td>
+            <td class="px-4 py-2">{{ forloop.counter }}</td>
+            <td class="px-4 py-2">{{ jogador.jogador__nome }}</td>
+            <td class="px-4 py-2">{{ jogador.total_gols }}</td>
           </tr>
           {% empty %}
           <tr>
-            <td colspan="3">Nenhum dado disponível.</td>
+            <td colspan="3" class="px-4 py-2 text-center">Nenhum dado disponível.</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
+    
     <!-- Mais Assistências -->
-    <div class="col-md-6">
-      <h3>Mais Assistências</h3>
-      <table class="table table-striped">
-        <thead>
+    <div class="bg-white shadow-md rounded-lg p-4">
+      <h3 class="text-xl font-semibold">Mais Assistências</h3>
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
           <tr>
-            <th>Posição</th>
-            <th>Jogador</th>
-            <th>Assistências</th>
+            <th class="px-4 py-2">Posição</th>
+            <th class="px-4 py-2">Jogador</th>
+            <th class="px-4 py-2">Assistências</th>
           </tr>
         </thead>
         <tbody>
           {% for jogador in top_assistencias %}
           <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ jogador.jogador__nome }}</td>
-            <td>{{ jogador.total_assistencias }}</td>
+            <td class="px-4 py-2">{{ forloop.counter }}</td>
+            <td class="px-4 py-2">{{ jogador.jogador__nome }}</td>
+            <td class="px-4 py-2">{{ jogador.total_assistencias }}</td>
           </tr>
           {% empty %}
           <tr>
-            <td colspan="3">Nenhum dado disponível.</td>
+            <td colspan="3" class="px-4 py-2 text-center">Nenhum dado disponível.</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -63,52 +64,53 @@ Estatísticas - CareerStatus
   </div>
 
   <!-- Mais Jogos e Melhor Média de Participação -->
-  <div class="row mt-4">
-    <div class="col-md-6">
-      <h3>Mais Jogos</h3>
-      <table class="table table-striped">
-        <thead>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+    <div class="bg-white shadow-md rounded-lg p-4">
+      <h3 class="text-xl font-semibold">Mais Jogos</h3>
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
           <tr>
-            <th>Posição</th>
-            <th>Jogador</th>
-            <th>Jogos</th>
+            <th class="px-4 py-2">Posição</th>
+            <th class="px-4 py-2">Jogador</th>
+            <th class="px-4 py-2">Jogos</th>
           </tr>
         </thead>
         <tbody>
           {% for jogador in top_jogos %}
           <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ jogador.jogador__nome }}</td>
-            <td>{{ jogador.total_jogos }}</td>
+            <td class="px-4 py-2">{{ forloop.counter }}</td>
+            <td class="px-4 py-2">{{ jogador.jogador__nome }}</td>
+            <td class="px-4 py-2">{{ jogador.total_jogos }}</td>
           </tr>
           {% empty %}
           <tr>
-            <td colspan="3">Nenhum dado disponível.</td>
+            <td colspan="3" class="px-4 py-2 text-center">Nenhum dado disponível.</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
-    <div class="col-md-6">
-      <h3>Melhor Média de Participação</h3>
-      <table class="table table-striped">
-        <thead>
+
+    <div class="bg-white shadow-md rounded-lg p-4">
+      <h3 class="text-xl font-semibold">Melhor Média de Participação</h3>
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
           <tr>
-            <th>Posição</th>
-            <th>Jogador</th>
-            <th>Média</th>
+            <th class="px-4 py-2">Posição</th>
+            <th class="px-4 py-2">Jogador</th>
+            <th class="px-4 py-2">Média</th>
           </tr>
         </thead>
         <tbody>
           {% for jogador in top_media_participacao %}
           <tr>
-            <td>{{ forloop.counter }}</td>
-            <td>{{ jogador.jogador__nome }}</td>
-            <td>{{ jogador.media_participacao|floatformat:"2" }}</td>
+            <td class="px-4 py-2">{{ forloop.counter }}</td>
+            <td class="px-4 py-2">{{ jogador.jogador__nome }}</td>
+            <td class="px-4 py-2">{{ jogador.media_participacao|floatformat:"2" }}</td>
           </tr>
           {% empty %}
           <tr>
-            <td colspan="3">Nenhum dado disponível.</td>
+            <td colspan="3" class="px-4 py-2 text-center">Nenhum dado disponível.</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -117,44 +119,45 @@ Estatísticas - CareerStatus
   </div>
 
   <!-- Estatísticas Gerais -->
-  <h2>Estatísticas Gerais</h2>
-  <div class="row mt-4">
-    <div class="col-md-6">
-      <h3>Jogadores por Temporada</h3>
-      <table class="table table-striped">
-        <thead>
+  <h2 class="text-2xl font-bold mt-8">Estatísticas Gerais</h2>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+    <div class="bg-white shadow-md rounded-lg p-4">
+      <h3 class="text-xl font-semibold">Jogadores por Temporada</h3>
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
           <tr>
-            <th>Temporada</th>
-            <th>Quantidade</th>
+            <th class="px-4 py-2">Temporada</th>
+            <th class="px-4 py-2">Quantidade</th>
           </tr>
         </thead>
         <tbody>
           {% for item in jogadores_por_temporada %}
           <tr>
-            <td>{{ item.temporada_subida }}</td>
-            <td>{{ item.total }}</td>
+            <td class="px-4 py-2">{{ item.temporada_subida }}</td>
+            <td class="px-4 py-2">{{ item.total }}</td>
           </tr>
           {% empty %}
           <tr>
-            <td colspan="2">Nenhum dado disponível.</td>
+            <td colspan="2" class="px-4 py-2 text-center">Nenhum dado disponível.</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
-    <div class="col-md-6">
-      <h3>Média de Potencial</h3>
-      <table class="table table-striped">
-        <thead>
+
+    <div class="bg-white shadow-md rounded-lg p-4">
+      <h3 class="text-xl font-semibold">Média de Potencial</h3>
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
           <tr>
-            <th>Potencial Mínimo</th>
-            <th>Potencial Máximo</th>
+            <th class="px-4 py-2">Potencial Mínimo</th>
+            <th class="px-4 py-2">Potencial Máximo</th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td>{{ media_potencial.media_potencial_min|floatformat:"2" }}</td>
-            <td>{{ media_potencial.media_potencial_max|floatformat:"2" }}</td>
+            <td class="px-4 py-2">{{ media_potencial.media_potencial_min|floatformat:"2" }}</td>
+            <td class="px-4 py-2">{{ media_potencial.media_potencial_max|floatformat:"2" }}</td>
           </tr>
         </tbody>
       </table>
@@ -162,48 +165,49 @@ Estatísticas - CareerStatus
   </div>
 
   <!-- Jogadores por Posição e Países com Mais Jogadores -->
-  <div class="row mt-4">
-    <div class="col-md-6">
-      <h3>Jogadores por Posição</h3>
-      <table class="table table-striped">
-        <thead>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+    <div class="bg-white shadow-md rounded-lg p-4">
+      <h3 class="text-xl font-semibold">Jogadores por Posição</h3>
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
           <tr>
-            <th>Posição</th>
-            <th>Quantidade</th>
+            <th class="px-4 py-2">Posição</th>
+            <th class="px-4 py-2">Quantidade</th>
           </tr>
         </thead>
         <tbody>
           {% for item in jogadores_por_posicao %}
           <tr>
-            <td>{{ item.posicao }}</td>
-            <td>{{ item.total }}</td>
+            <td class="px-4 py-2">{{ item.posicao }}</td>
+            <td class="px-4 py-2">{{ item.total }}</td>
           </tr>
           {% empty %}
           <tr>
-            <td colspan="2">Nenhum dado disponível.</td>
+            <td colspan="2" class="px-4 py-2 text-center">Nenhum dado disponível.</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
-    <div class="col-md-6">
-      <h3>Top 10 Países com Mais Jogadores</h3>
-      <table class="table table-striped">
-        <thead>
+
+    <div class="bg-white shadow-md rounded-lg p-4">
+      <h3 class="text-xl font-semibold">Top 10 Países com Mais Jogadores</h3>
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
           <tr>
-            <th>País</th>
-            <th>Quantidade</th>
+            <th class="px-4 py-2">País</th>
+            <th class="px-4 py-2">Quantidade</th>
           </tr>
         </thead>
         <tbody>
           {% for item in paises_com_mais_jogadores %}
           <tr>
-            <td>{{ item.nacionalidade }}</td>
-            <td>{{ item.total }}</td>
+            <td class="px-4 py-2">{{ item.nacionalidade }}</td>
+            <td class="px-4 py-2">{{ item.total }}</td>
           </tr>
           {% empty %}
           <tr>
-            <td colspan="2">Nenhum dado disponível.</td>
+            <td colspan="2" class="px-4 py-2 text-center">Nenhum dado disponível.</td>
           </tr>
           {% endfor %}
         </tbody>
@@ -212,48 +216,49 @@ Estatísticas - CareerStatus
   </div>
 
   <!-- Distribuição de Gols -->
-  <div class="row mt-4">
-    <div class="col-md-6">
-      <h3>Distribuição de Gols por Posição</h3>
-      <table class="table table-striped">
-        <thead>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+    <div class="bg-white shadow-md rounded-lg p-4">
+      <h3 class="text-xl font-semibold">Distribuição de Gols por Posição</h3>
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
           <tr>
-            <th>Posição</th>
-            <th>Gols</th>
+            <th class="px-4 py-2">Posição</th>
+            <th class="px-4 py-2">Gols</th>
           </tr>
         </thead>
         <tbody>
           {% for item in gols_por_posicao %}
           <tr>
-            <td>{{ item.jogador__posicao }}</td>
-            <td>{{ item.total_gols }}</td>
+            <td class="px-4 py-2">{{ item.jogador__posicao }}</td>
+            <td class="px-4 py-2">{{ item.total_gols }}</td>
           </tr>
           {% empty %}
           <tr>
-            <td colspan="2">Nenhum dado disponível.</td>
+            <td colspan="2" class="px-4 py-2 text-center">Nenhum dado disponível.</td>
           </tr>
           {% endfor %}
         </tbody>
       </table>
     </div>
-    <div class="col-md-6">
-      <h3>Distribuição de Gols por País</h3>
-      <table class="table table-striped">
-        <thead>
+
+    <div class="bg-white shadow-md rounded-lg p-4">
+      <h3 class="text-xl font-semibold">Distribuição de Gols por País</h3>
+      <table class="min-w-full divide-y divide-gray-200">
+        <thead class="bg-gray-100">
           <tr>
-            <th>País</th>
-            <th>Gols</th>
+            <th class="px-4 py-2">País</th>
+            <th class="px-4 py-2">Gols</th>
           </tr>
         </thead>
         <tbody>
           {% for item in gols_por_pais %}
           <tr>
-            <td>{{ item.jogador__nacionalidade }}</td>
-            <td>{{ item.total_gols }}</td>
+            <td class="px-4 py-2">{{ item.jogador__nacionalidade }}</td>
+            <td class="px-4 py-2">{{ item.total_gols }}</td>
           </tr>
           {% empty %}
           <tr>
-            <td colspan="2">Nenhum dado disponível.</td>
+            <td colspan="2" class="px-4 py-2 text-center">Nenhum dado disponível.</td>
           </tr>
           {% endfor %}
         </tbody>

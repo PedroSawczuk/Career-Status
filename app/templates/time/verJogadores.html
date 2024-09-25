@@ -3,41 +3,43 @@
 {% block title %}Ver Jogadores - CareerStatus{% endblock %}
 
 {% block content %}
-<main class="container mt-4">
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Nome</th>
-        <th>Posição</th>
-        <th>Potencial</th>
-        <th>Nacionalidade</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for jogador in jogadores %}
-      <tr>
-        <td>
-          <a href="{% url 'ver_jogador' jogador.pk %}">{{ jogador.nome }}</a>
-        </td>
-        <td>{{ jogador.posicao }}</td>
-        <td>{{ jogador.potencial_min }} - {{ jogador.potencial_max }}</td>
-        <td>{{ jogador.get_nacionalidade_display }}</td>
-        <td>
-          {% if not jogador.vendido %}
-          <a href="{% url 'adicionar_estatisticas' jogador.pk %}" class="btn btn-sm btn-success">Add. Est.</a>
-          <a href="{% url 'editar_estatisticas' jogador.pk %}" class="btn btn-sm btn-warning">Edit. Est.</a>
-          <form action="{% url 'marcar_jogador_vendido' jogador.pk %}" method="post" style="display: inline">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-sm btn-danger">Marcar como Vendido</button>
-          </form>
-          {% else %}
-          <span>Vendido</span>
-          {% endif %}
-        </td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+<main class="container mx-auto mt-4">
+  <div class="overflow-x-auto">
+    <table class="min-w-full bg-white border border-gray-200">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="py-2 px-4 border-b">Nome</th>
+          <th class="py-2 px-4 border-b">Posição</th>
+          <th class="py-2 px-4 border-b">Potencial</th>
+          <th class="py-2 px-4 border-b">Nacionalidade</th>
+          <th class="py-2 px-4 border-b">Ações</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for jogador in jogadores %}
+        <tr class="hover:bg-gray-50">
+          <td class="py-2 px-4 border-b">
+            <a href="{% url 'ver_jogador' jogador.pk %}" class="text-blue-500 hover:underline">{{ jogador.nome }}</a>
+          </td>
+          <td class="py-2 px-4 border-b">{{ jogador.posicao }}</td>
+          <td class="py-2 px-4 border-b">{{ jogador.potencial_min }} - {{ jogador.potencial_max }}</td>
+          <td class="py-2 px-4 border-b">{{ jogador.get_nacionalidade_display }}</td>
+          <td class="py-2 px-4 border-b">
+            {% if not jogador.vendido %}
+            <a href="{% url 'adicionar_estatisticas' jogador.pk %}" class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Add. Est.</a>
+            <a href="{% url 'editar_estatisticas' jogador.pk %}" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">Edit. Est.</a>
+            <form action="{% url 'marcar_jogador_vendido' jogador.pk %}" method="post" style="display: inline">
+              {% csrf_token %}
+              <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Marcar como Vendido</button>
+            </form>
+            {% else %}
+            <span class="text-red-500">Vendido</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 </main>
 {% endblock %}
