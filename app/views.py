@@ -3,7 +3,10 @@ from django.urls import reverse_lazy
 from django.views.generic import *
 from django.views.generic import ListView
 from django.db.models import Count, Avg, FloatField, ExpressionWrapper, Sum
-
+from django.views import View
+from django.http import JsonResponse
+from django.shortcuts import redirect
+from django.db import connection
 from app.forms import EstatisticaForm
 from .models import *
 
@@ -14,7 +17,7 @@ class CriarJogadorView(CreateView):
     model = Jogador
     fields = ['nome', 'posicao', 'potencial_min', 'potencial_max', 'nacionalidade', 'temporada_subida']
     template_name = 'time/criarJogador.html'
-    success_url = reverse_lazy('ver_jogadores') 
+    success_url = reverse_lazy('ver_jogadores')
 
 class VerJogadoresView(ListView):
     model = Jogador
@@ -54,8 +57,7 @@ class MarcarJogadorVendidoView(View):
         jogador = get_object_or_404(Jogador, pk=pk)
         jogador.vendido = True
         jogador.save()
-        return redirect('ver_jogadores') 
-
+        return redirect('ver_jogadores')
 
 class RetirarVendaJogadorView(View):
     def post(self, request, pk):
@@ -63,7 +65,7 @@ class RetirarVendaJogadorView(View):
         jogador.vendido = False
         jogador.save()
         return redirect('ver_jogadores')
-     
+
 class JogadoresVendidosView(ListView):
     model = Jogador
     template_name = 'time/jogadoresVendidos.html'
@@ -71,7 +73,7 @@ class JogadoresVendidosView(ListView):
 
     def get_queryset(self):
         return Jogador.objects.filter(vendido=True)
-    
+
 class VerJogadorView(DetailView):
     model = Jogador
     template_name = 'time/verJogador.html'
@@ -87,10 +89,7 @@ class VerJogadorView(DetailView):
         total_assistencias = estatisticas.aggregate(Sum('assistencias'))['assistencias__sum'] or 0
         
         # Calculate average goals per game
-        if total_jogos > 0:
-            media_gols_por_jogo = total_gols / total_jogos
-        else:
-            media_gols_por_jogo = 0
+        media_gols_por_jogo = total_gols / total_jogos if total_jogos > 0 else 0
         
         # Get the best season for goals and assists
         melhor_temporada_gols = estatisticas.order_by('-gols').first()
@@ -134,7 +133,6 @@ class EditarEstatisticasView(UpdateView):
     def get_success_url(self):
         return reverse_lazy('ver_jogador', kwargs={'pk': self.object.jogador.pk})
 
-
 class EstatisticasView(ListView):
     template_name = 'time/estatisticas.html'
     context_object_name = 'estatisticas'
@@ -162,7 +160,6 @@ class EstatisticasView(ListView):
         gols_por_posicao = Estatistica.objects.exclude(jogador__posicao='Goleiro').values('jogador__posicao').annotate(total_gols=Sum('gols'))
         gols_por_pais = Estatistica.objects.values('jogador__nacionalidade').annotate(total_gols=Sum('gols'))
 
-        
         context.update({
             'top_gols': top_gols,
             'top_assistencias': top_assistencias,
@@ -177,7 +174,23 @@ class EstatisticasView(ListView):
         })
 
         return context
+
 class ExcluirJogadorView(DeleteView):
     model = Jogador
-    template_name = 'time/excluirJogador.html'  
+    template_name = 'time/excluirJogador.html'
     success_url = reverse_lazy('jogadores_vendidos')
+
+class ResetDatabaseView(View):
+    def post(self, request, *args, **kwargs):
+        # Verifica se a confirmação está presente
+        if request.POST.get('confirm') == 'delete':
+            # Lógica para resetar o banco de dados
+            with connection.cursor() as cursor:
+                cursor.execute('SET FOREIGN_KEY_CHECKS = 0;')  # Desabilita checagem de chave estrangeira
+                cursor.execute('DELETE FROM app_estatistica;')
+                cursor.execute('DELETE FROM app_jogador;')
+                cursor.execute('DELETE FROM app_nacionalidadeestatistica;')
+                cursor.execute('SET FOREIGN_KEY_CHECKS = 1;')  # Reabilita checagem de chave estrangeira
+
+            return redirect('home')  # Redireciona após o reset
+        return JsonResponse({'error': 'Confirmação inválida'}, status=400)

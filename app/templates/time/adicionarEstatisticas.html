@@ -9,7 +9,31 @@ Adicionar Estatísticas - CareerStatus
   <form method="post">
     {% csrf_token %}
     <div class="bg-white shadow-md rounded-lg p-6">
-      {{ form.as_p }}
+      
+      <div class="mb-6"> <!-- Aumentando o espaçamento entre os campos -->
+        <label for="id_temporada" class="block text-sm font-medium text-gray-700">Temporada</label>
+        <select name="temporada" id="id_temporada" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 h-12"> <!-- Aumentando a altura -->
+          {% for value, display in form.temporada.field.choices %}
+          <option value="{{ value }}"{% if form.temporada.value == value %} selected{% endif %}>{{ display }}</option>
+          {% endfor %}
+        </select>
+      </div>
+
+      <div class="mb-6"> <!-- Aumentando o espaçamento entre os campos -->
+        <label for="id_gols" class="block text-sm font-medium text-gray-700">Gols</label>
+        <input type="number" name="gols" id="id_gols" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 h-12 appearance-none" value="{{ form.gols.value }}" style="padding-right: 0;"> <!-- Aumentando a altura e removendo a setinha -->
+      </div>
+
+      <div class="mb-6"> <!-- Aumentando o espaçamento entre os campos -->
+        <label for="id_assistencias" class="block text-sm font-medium text-gray-700">Assistências</label>
+        <input type="number" name="assistencias" id="id_assistencias" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 h-12 appearance-none" value="{{ form.assistencias.value }}" style="padding-right: 0;"> <!-- Aumentando a altura e removendo a setinha -->
+      </div>
+
+      <div class="mb-6"> <!-- Aumentando o espaçamento entre os campos -->
+        <label for="id_jogos" class="block text-sm font-medium text-gray-700">Jogos</label>
+        <input type="number" name="jogos" id="id_jogos" class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 h-12 appearance-none" value="{{ form.jogos.value }}" style="padding-right: 0;"> <!-- Aumentando a altura e removendo a setinha -->
+      </div>
+
       <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Salvar</button>
     </div>
   </form>

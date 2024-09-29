@@ -4,41 +4,130 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>{% block title %}CareerStatus{% endblock %}</title>
-    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com"></script>
   </head>
   <body class="bg-gray-100">
-    <nav class="bg-gray-800 p-4">
+    <nav class="bg-white shadow-md py-4">
       <div class="container mx-auto flex justify-between items-center">
-        <a class="text-white text-lg font-semibold" href="{% url 'home' %}">CareerStatus</a>
-        <button class="text-white focus:outline-none md:hidden" id="navbar-toggle">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16m-7 6h7" />
+        <a class="text-gray-900 text-xl font-bold" href="{% url 'home' %}"
+          >CareerStatus</a
+        >
+        <div class="hidden md:flex items-center space-x-6">
+          <form action="#" method="GET" class="relative">
+            <input
+              type="text"
+              placeholder="Buscar..."
+              class="bg-gray-200 text-gray-900 rounded-full px-4 py-2 pl-10 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+            <svg
+              class="absolute left-3 top-2.5 text-gray-500 h-5 w-5"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 20 20"
+              fill="currentColor"
+            >
+              <path
+                fill-rule="evenodd"
+                d="M12.9 14.32a8 8 0 111.414-1.414l3.853 3.852a1 1 0 01-1.414 1.414l-3.853-3.853zM8 14a6 6 0 100-12 6 6 0 000 12z"
+                clip-rule="evenodd"
+              />
+            </svg>
+          </form>
+          <a
+            class="text-gray-700 hover:text-blue-500"
+            href="{% url 'criar_jogador' %}"
+            >Adicionar Jogador</a
+          >
+          <a
+            class="text-gray-700 hover:text-blue-500"
+            href="{% url 'ver_jogadores' %}"
+            >Ver Jogadores</a
+          >
+          <a
+            class="text-gray-700 hover:text-blue-500"
+            href="{% url 'estatisticas' %}"
+            >Estatísticas</a
+          >
+          <a
+            class="text-gray-700 hover:text-blue-500"
+            href="{% url 'jogadores_vendidos' %}"
+            >Jogadores Vendidos</a
+          >
+          <a
+            class="text-gray-700 hover:text-blue-500"
+            href="{% url 'jogadores_por_temporada' %}"
+            >Dados Por Temporada</a
+          >
+        </div>
+        <button
+          class="md:hidden text-gray-700 focus:outline-none"
+          id="navbar-toggle"
+        >
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-6 w-6"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16m-7 6h7"
+            />
           </svg>
         </button>
-        <div class="hidden md:flex space-x-4" id="navbar-menu">
-          <a class="text-white hover:bg-gray-700 px-3 py-2 rounded" href="{% url 'criar_jogador' %}">Adicionar Jogador</a>
-          <a class="text-white hover:bg-gray-700 px-3 py-2 rounded" href="{% url 'ver_jogadores' %}">Ver Jogadores</a>
-          <a class="text-white hover:bg-gray-700 px-3 py-2 rounded" href="{% url 'estatisticas' %}">Estatísticas</a>
-          <a class="text-white hover:bg-gray-700 px-3 py-2 rounded" href="{% url 'jogadores_vendidos' %}">Jogadores Vendidos</a>
-          <a class="text-white hover:bg-gray-700 px-3 py-2 rounded" href="{% url 'jogadores_por_temporada' %}">Dados Por Temporada</a>
-        </div>
+      </div>
+
+      <!-- Mobile Menu -->
+      <div class="hidden md:hidden bg-white shadow-md" id="navbar-menu">
+        <form action="#" method="GET" class="px-4 py-2">
+          <input
+            type="text"
+            placeholder="Buscar..."
+            class="w-full bg-gray-200 text-gray-900 rounded-full px-4 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+          />
+        </form>
+        <a
+          class="block text-gray-700 hover:text-blue-500 px-4 py-2"
+          href="{% url 'criar_jogador' %}"
+          >Adicionar Jogador</a
+        >
+        <a
+          class="block text-gray-700 hover:text-blue-500 px-4 py-2"
+          href="{% url 'ver_jogadores' %}"
+          >Ver Jogadores</a
+        >
+        <a
+          class="block text-gray-700 hover:text-blue-500 px-4 py-2"
+          href="{% url 'estatisticas' %}"
+          >Estatísticas</a
+        >
+        <a
+          class="block text-gray-700 hover:text-blue-500 px-4 py-2"
+          href="{% url 'jogadores_vendidos' %}"
+          >Jogadores Vendidos</a
+        >
+        <a
+          class="block text-gray-700 hover:text-blue-500 px-4 py-2"
+          href="{% url 'jogadores_por_temporada' %}"
+          >Dados Por Temporada</a
+        >
       </div>
     </nav>
 
     <main class="container mx-auto mt-4">
-      {% block content %}
-      {% endblock %}
+      {% block content %} {% endblock %}
     </main>
 
     <script>
       // Toggle mobile menu
-      const toggleButton = document.getElementById('navbar-toggle');
-      const menu = document.getElementById('navbar-menu');
+      const toggleButton = document.getElementById("navbar-toggle");
+      const menu = document.getElementById("navbar-menu");
 
-      toggleButton.addEventListener('click', () => {
-        menu.classList.toggle('hidden');
+      toggleButton.addEventListener("click", () => {
+        menu.classList.toggle("hidden");
       });
     </script>
   </body>
 </html>
-  

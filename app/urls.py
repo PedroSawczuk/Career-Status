@@ -15,4 +15,6 @@ urlpatterns = [
     path('excluir_jogador/<int:pk>/', ExcluirJogadorView.as_view(), name='excluir_jogador'),
     path('jogadores_por_temporada/', JogadoresPorTemporadaView.as_view(), name='jogadores_por_temporada'),
 
+    path('reset-database/', ResetDatabaseView.as_view(), name='reset_database'),
+
 ]

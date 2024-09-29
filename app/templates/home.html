@@ -7,8 +7,27 @@
   <div class="w-full max-w-xs">
     <a href="{% url 'criar_jogador' %}" class="block bg-blue-500 text-white text-center py-2 rounded mb-2 hover:bg-blue-600">Adicionar Jogador</a>
     <a href="{% url 'ver_jogadores' %}" class="block bg-gray-400 text-white text-center py-2 rounded mb-2 hover:bg-gray-500">Ver Jogadores</a>
-    <a href="{% url 'estatisticas' %}" class="block bg-teal-500 text-white text-center py-2 rounded hover:bg-teal-600">Estatísticas</a>
+    <a href="{% url 'estatisticas' %}" class="block bg-orange-500 text-white text-center py-2 rounded mb-2 hover:bg-orange-600">Estatísticas</a>
+
+    <form id="reset-db-form" action="{% url 'reset_database' %}" method="POST" class="mt-2">
+      {% csrf_token %}
+      <input type="hidden" name="confirm" value="delete" />
+      <button type="button" onclick="confirmReset()" class="block bg-red-500 text-white text-center py-2 rounded mb-2 hover:bg-red-600 w-full">
+        Resetar Banco de Dados
+      </button>
+    </form>
   </div>
 </div>
+
+<script>
+  function confirmReset() {
+    const confirmation = prompt("Digite 'delete' para confirmar a exclusão do banco de dados:");
+    if (confirmation === 'delete') {
+      document.getElementById('reset-db-form').submit();
+    } else {
+      alert("Confirmação inválida. O banco de dados não será excluído.");
+    }
+  }
+</script>
+
 {% endblock %}
-    
