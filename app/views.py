@@ -27,6 +27,11 @@ class VerJogadoresView(ListView):
     def get_queryset(self):
         return Jogador.objects.filter(vendido=False).order_by('nome')
 
+class JogadorDeleteView(DeleteView):
+    model = Jogador
+    template_name = 'time/deleteJogadores.html' 
+    success_url = reverse_lazy('ver_jogadores') 
+    
 class JogadoresPorTemporadaView(TemplateView):
     template_name = 'time/jogadoresPorTemporada.html'
 

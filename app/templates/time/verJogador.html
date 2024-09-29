@@ -3,31 +3,31 @@
 {% block title %}Ver Jogador - CareerStatus{% endblock %}
 
 {% block content %}
-<main class="container mx-auto mt-4">
-  <h2 class="text-2xl font-bold">{{ jogador.nome }}</h2>
+<main class="container mx-auto mt-8 p-6 bg-white rounded-lg shadow-lg">
+  <h2 class="text-4xl font-bold text-black text-center">{{ jogador.nome }}</h2>
 
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
-    <div>
-      <p><strong>Posição:</strong> {{ jogador.posicao }}</p>
-      <p><strong>Potencial:</strong> {{ jogador.potencial_min }} - {{ jogador.potencial_max }}</p>
-      <p><strong>Nacionalidade:</strong> {{ jogador.get_nacionalidade_display }}</p>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-6 p-6 bg-gray-100 rounded-lg shadow-md">
+    <div class="border-l-4 border-black pl-4">
+      <p class="text-lg"><strong>Posição:</strong> <span class="text-gray-800">{{ jogador.posicao }}</span></p>
+      <p class="text-lg"><strong>Potencial:</strong> <span class="text-gray-800">{{ jogador.potencial_min }} - {{ jogador.potencial_max }}</span></p>
+      <p class="text-lg"><strong>Nacionalidade:</strong> <span class="text-gray-800">{{ jogador.get_nacionalidade_display }}</span></p>
     </div>
   </div>
 
-  <h3 class="text-xl font-semibold mt-6">Estatísticas por Temporada</h3>
-  <div class="overflow-x-auto mt-2">
-    <table class="min-w-full bg-white border border-gray-200">
-      <thead>
-        <tr class="bg-gray-100">
-          <th class="py-2 px-4 border-b">Temporada</th>
-          <th class="py-2 px-4 border-b">Gols</th>
-          <th class="py-2 px-4 border-b">Assistências</th>
-          <th class="py-2 px-4 border-b">Jogos</th>
+  <h3 class="text-3xl font-semibold text-black mt-8">Estatísticas por Temporada</h3>
+  <div class="overflow-x-auto mt-4">
+    <table class="min-w-full bg-white border border-gray-300 rounded-lg shadow-md">
+      <thead class="bg-gray-800 text-white">
+        <tr>
+          <th class="py-3 px-4 border-b">Temporada</th>
+          <th class="py-3 px-4 border-b">Gols</th>
+          <th class="py-3 px-4 border-b">Assistências</th>
+          <th class="py-3 px-4 border-b">Jogos</th>
         </tr>
       </thead>
       <tbody>
         {% for estatistica in jogador.estatisticas.all %}
-        <tr class="hover:bg-gray-50">
+        <tr class="hover:bg-gray-100 transition duration-200">
           <td class="py-2 px-4 border-b">{{ estatistica.temporada }}</td>
           <td class="py-2 px-4 border-b">{{ estatistica.gols }}</td>
           <td class="py-2 px-4 border-b">{{ estatistica.assistencias }}</td>
@@ -42,24 +42,30 @@
     </table>
   </div>
 
-  <h3 class="text-xl font-semibold mt-6">Estatísticas Gerais</h3>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+  <h3 class="text-3xl font-semibold text-black mt-8">Estatísticas Gerais</h3>
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 mt-4 p-6 bg-gray-100 rounded-lg shadow-md">
     <div>
-      <p><strong>Total de Jogos:</strong> {{ total_jogos }}</p>
-      <p><strong>Total de Gols:</strong> {{ total_gols }}</p>
-      <p><strong>Total de Assistências:</strong> {{ total_assistencias }}</p>
-      <p><strong>Média de Gols por Jogo:</strong> {{ media_gols_por_jogo|floatformat:2 }}</p>
+      <p class="text-lg"><strong>Total de Jogos:</strong> <span class="text-gray-800">{{ total_jogos }}</span></p>
+      <p class="text-lg"><strong>Total de Gols:</strong> <span class="text-gray-800">{{ total_gols }}</span></p>
+      <p class="text-lg"><strong>Total de Assistências:</strong> <span class="text-gray-800">{{ total_assistencias }}</span></p>
+      <p class="text-lg"><strong>Média de Gols por Jogo:</strong> <span class="text-gray-800">{{ media_gols_por_jogo|floatformat:2 }}</span></p>
     </div>
     <div>
-      <p>
+      <p class="text-lg">
         <strong>Melhor Temporada (Gols):</strong>
-        {% if melhor_temporada_gols %} {{ melhor_temporada_gols.temporada }} ({{ melhor_temporada_gols.gols }} gols)
-        {% else %} Nenhum registro de gols. {% endif %}
+        {% if melhor_temporada_gols %} 
+          <span class="text-gray-800">{{ melhor_temporada_gols.temporada }} ({{ melhor_temporada_gols.gols }} gols)</span>
+        {% else %} 
+          Nenhum registro de gols. 
+        {% endif %}
       </p>
-      <p>
+      <p class="text-lg">
         <strong>Melhor Temporada (Assistências):</strong>
-        {% if melhor_temporada_assistencias %} {{ melhor_temporada_assistencias.temporada }} ({{ melhor_temporada_assistencias.assistencias }} assistências)
-        {% else %} Nenhum registro de assistências. {% endif %}
+        {% if melhor_temporada_assistencias %} 
+          <span class="text-gray-800">{{ melhor_temporada_assistencias.temporada }} ({{ melhor_temporada_assistencias.assistencias }} assistências)</span>
+        {% else %} 
+          Nenhum registro de assistências. 
+        {% endif %}
       </p>
     </div>
   </div>

@@ -1,8 +1,4 @@
-{% extends 'base.html' %}
-
-{% block title %}Ver Jogadores - CareerStatus{% endblock %}
-
-{% block content %}
+{% extends 'base.html' %} {% block title %}Ver Jogadores - CareerStatus{% endblock %} {% block content %}
 <main class="container mx-auto mt-4">
   <div class="overflow-x-auto">
     <table class="min-w-full bg-white border border-gray-200">
@@ -19,19 +15,49 @@
         {% for jogador in jogadores %}
         <tr class="hover:bg-gray-50">
           <td class="py-2 px-4 border-b">
-            <a href="{% url 'ver_jogador' jogador.pk %}" class="text-blue-500 hover:underline">{{ jogador.nome }}</a>
+            <a
+              href="{% url 'ver_jogador' jogador.pk %}"
+              class="text-blue-500 hover:underline"
+              >{{ jogador.nome }}</a
+            >
           </td>
           <td class="py-2 px-4 border-b">{{ jogador.posicao }}</td>
-          <td class="py-2 px-4 border-b">{{ jogador.potencial_min }} - {{ jogador.potencial_max }}</td>
-          <td class="py-2 px-4 border-b">{{ jogador.get_nacionalidade_display }}</td>
+          <td class="py-2 px-4 border-b">
+            {{ jogador.potencial_min }} - {{ jogador.potencial_max }}
+          </td>
+          <td class="py-2 px-4 border-b">
+            {{ jogador.get_nacionalidade_display }}
+          </td>
           <td class="py-2 px-4 border-b">
             {% if not jogador.vendido %}
-            <a href="{% url 'adicionar_estatisticas' jogador.pk %}" class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600">Add. Est.</a>
-            <a href="{% url 'editar_estatisticas' jogador.pk %}" class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600">Edit. Est.</a>
-            <form action="{% url 'marcar_jogador_vendido' jogador.pk %}" method="post" style="display: inline">
+            <a
+              href="{% url 'adicionar_estatisticas' jogador.pk %}"
+              class="bg-green-500 text-white px-2 py-1 rounded hover:bg-green-600"
+              >Add. Est.</a
+            >
+            <a
+              href="{% url 'editar_estatisticas' jogador.pk %}"
+              class="bg-yellow-500 text-white px-2 py-1 rounded hover:bg-yellow-600"
+              >Edit. Est.</a
+            >
+            <form
+              action="{% url 'marcar_jogador_vendido' jogador.pk %}"
+              method="post"
+              style="display: inline"
+            >
               {% csrf_token %}
-              <button type="submit" class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">Marcar como Vendido</button>
+              <button
+                type="submit"
+                class="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+              >
+                Marcar como Vendido
+              </button>
             </form>
+            <a
+              href="{% url 'excluir_jogador' jogador.pk %}"
+              class="bg-red-600 text-white px-2 py-1 rounded hover:bg-red-700"
+              >Excluir Jogador</a
+            >
             {% else %}
             <span class="text-red-500">Vendido</span>
             {% endif %}

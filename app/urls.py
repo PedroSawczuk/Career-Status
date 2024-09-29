@@ -5,6 +5,8 @@ urlpatterns = [
     path("", HomePageView.as_view(), name="home"),
     path('criar_jogador/', CriarJogadorView.as_view(), name='criar_jogador'),
     path('ver_jogadores/', VerJogadoresView.as_view(), name='ver_jogadores'),
+    path('jogador/excluir/<int:pk>/', JogadorDeleteView.as_view(), name='excluir_jogador'),
+
     path('estatisticas/', EstatisticasView.as_view(), name='estatisticas'),
     path('ver_jogador/<int:pk>/', VerJogadorView.as_view(), name='ver_jogador'),
     path('jogador/<int:pk>/vender/', MarcarJogadorVendidoView.as_view(), name='marcar_jogador_vendido'),

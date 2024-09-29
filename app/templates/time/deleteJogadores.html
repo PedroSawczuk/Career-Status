@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block title %}Confirmar Exclusão{% endblock %}
+
+{% block content %}
+<main class="container mx-auto mt-4">
+    <h2 class="text-lg font-semibold">Confirmar Exclusão</h2>
+    <p>Você tem certeza de que deseja excluir o jogador "{{ object.nome }}"?</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="bg-red-500 text-white px-4 py-2 rounded hover:bg-red-600">Confirmar Exclusão</button>
+        <a href="{% url 'ver_jogadores' %}" class="bg-gray-500 text-white px-4 py-2 rounded hover:bg-gray-600">Cancelar</a>
+    </form>
+</main>
+{% endblock %}
