@@ -7,11 +7,32 @@ Editar Estatísticas - CareerStatus
 {% block content %}
 
 <main class="container mx-auto mt-4 px-4">
-  <form method="post">
+  <h1 class="text-2xl font-semibold text-gray-800 mb-4">Editar Estatísticas</h1>
+  <form method="post" class="bg-white shadow-md rounded-lg p-6">
     {% csrf_token %}
-    <div class="bg-white shadow-md rounded-lg p-6">
-      {{ form.as_p }}
-      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Salvar</button>
+    
+    <div class="grid grid-cols-1 gap-4">
+      <label for="{{ form.temporada.id_for_label }}" class="font-medium text-gray-700">{{ form.temporada.label }}</label>
+      <select id="{{ form.temporada.id_for_label }}" name="{{ form.temporada.name }}" class="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500">
+        {% for choice in form.temporada.field.choices %}
+          <option value="{{ choice.0 }}" {% if choice.0 == form.temporada.value %}selected{% endif %}>{{ choice.1 }}</option>
+        {% endfor %}
+      </select>
+
+      <label for="{{ form.gols.id_for_label }}" class="font-medium text-gray-700">{{ form.gols.label }}</label>
+      <input type="number" id="{{ form.gols.id_for_label }}" name="{{ form.gols.name }}" value="{{ form.gols.value }}" class="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Número de gols">
+
+      <label for="{{ form.assistencias.id_for_label }}" class="font-medium text-gray-700">{{ form.assistencias.label }}</label>
+      <input type="number" id="{{ form.assistencias.id_for_label }}" name="{{ form.assistencias.name }}" value="{{ form.assistencias.value }}" class="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Número de assistências">
+
+      <label for="{{ form.jogos.id_for_label }}" class="font-medium text-gray-700">{{ form.jogos.label }}</label>
+      <input type="number" id="{{ form.jogos.id_for_label }}" name="{{ form.jogos.name }}" value="{{ form.jogos.value }}" class="border border-gray-300 rounded-md p-2 w-full focus:outline-none focus:ring-2 focus:ring-blue-500" placeholder="Número de jogos">
+    </div>
+    
+    <div class="flex justify-end mt-4">
+      <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 transition duration-300 ease-in-out">
+        Salvar
+      </button>
     </div>
   </form>
 </main>

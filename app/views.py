@@ -127,11 +127,18 @@ class AdicionarEstatisticasView(CreateView):
 
 class EditarEstatisticasView(UpdateView):
     model = Estatistica
-    fields = ['temporada', 'gols', 'assistencias', 'jogos']
+    form_class = EstatisticaForm
     template_name = 'time/editarEstatisticas.html'
 
     def get_success_url(self):
         return reverse_lazy('ver_jogador', kwargs={'pk': self.object.jogador.pk})
+
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        # Adiciona o jogador ao contexto do formulário
+        kwargs['jogador'] = self.object.jogador
+        return kwargs
+
 
 class EstatisticasView(ListView):
     template_name = 'time/estatisticas.html'
@@ -182,14 +189,15 @@ class ExcluirJogadorView(DeleteView):
 
 class ResetDatabaseView(View):
     def post(self, request, *args, **kwargs):
-        # Verifica se a confirmação está presente
         if request.POST.get('confirm') == 'delete':
-            # Lógica para resetar o banco de dados
             with connection.cursor() as cursor:
                 cursor.execute('SET FOREIGN_KEY_CHECKS = 0;')  # Desabilita checagem de chave estrangeira
                 cursor.execute('DELETE FROM app_estatistica;')
                 cursor.execute('DELETE FROM app_jogador;')
                 cursor.execute('DELETE FROM app_nacionalidadeestatistica;')
+                cursor.execute('ALTER TABLE app_estatistica AUTO_INCREMENT = 1;')  # Reseta o auto incremento
+                cursor.execute('ALTER TABLE app_jogador AUTO_INCREMENT = 1;')  # Reseta o auto incremento
+                cursor.execute('ALTER TABLE app_nacionalidadeestatistica AUTO_INCREMENT = 1;')  # Reseta o auto incremento
                 cursor.execute('SET FOREIGN_KEY_CHECKS = 1;')  # Reabilita checagem de chave estrangeira
 
             return redirect('home')  # Redireciona após o reset
