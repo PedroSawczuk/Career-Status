@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}Resultados da Busca{% endblock %}
+
+{% block content %}
+<main class="container mx-auto mt-4 p-6 bg-white rounded-lg shadow-lg">
+  <h2 class="text-3xl font-bold text-black">Resultados da Busca</h2>
+
+  <div class="mt-4">
+    {% if players %}
+      <ul>
+        {% for player in players %}
+          <li class="py-2">
+            <a href="{% url 'ver_jogador' player.id %}" class="text-blue-500 hover:underline">
+              {{ player.nome }}
+            </a>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Nenhum jogador encontrado.</p>
+    {% endif %}
+  </div>
+</main>
+{% endblock %}

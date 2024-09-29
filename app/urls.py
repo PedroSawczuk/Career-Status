@@ -18,5 +18,7 @@ urlpatterns = [
     path('jogadores_por_temporada/', JogadoresPorTemporadaView.as_view(), name='jogadores_por_temporada'),
 
     path('reset-database/', ResetDatabaseView.as_view(), name='reset_database'),
+    
+    path('search/', SearchPlayersView.as_view(), name='search_players'),
 
 ]

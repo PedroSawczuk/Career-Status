@@ -207,3 +207,12 @@ class ResetDatabaseView(View):
 
             return redirect('home')  # Redireciona após o reset
         return JsonResponse({'error': 'Confirmação inválida'}, status=400)
+
+class SearchPlayersView(ListView):
+    model = Jogador
+    template_name = 'time/pesquisaResultados.html'  # Crie este template para exibir os resultados
+    context_object_name = 'players'
+
+    def get_queryset(self):
+        query = self.request.GET.get('query', '')
+        return Jogador.objects.filter(nome__icontains=query)
